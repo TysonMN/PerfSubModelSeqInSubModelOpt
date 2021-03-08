@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+	  <TargetFramework>net472</TargetFramework>
+	  <UseWpf>true</UseWpf>
+	  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Models.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Bogus" Version="33.0.2" />
+    <PackageReference Include="Elmish.WPF" Version="3.5.7" />
+  </ItemGroup>
+
+</Project>

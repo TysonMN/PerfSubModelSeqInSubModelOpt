@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="33.0.2" />
-    <PackageReference Include="Elmish.WPF" Version="3.5.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Downloads\Elmish.WPF-4.0.0-beta-40\src\Elmish.WPF\Elmish.WPF.fsproj" />
   </ItemGroup>
 
 </Project>

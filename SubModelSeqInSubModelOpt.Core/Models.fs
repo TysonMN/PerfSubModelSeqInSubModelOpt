@@ -100,8 +100,5 @@ module MainApp =
     let containerDesignVm = ViewModel.designInstance (ContainerModel.init ()) (ContainerModel.bindings ())
 
     let main window =
-        Program.mkSimpleWpf ContainerModel.init ContainerModel.update ContainerModel.bindings
-        |> Program.withConsoleTrace
-        |> Program.startElmishLoop
-           { ElmConfig.Default with LogConsole = false; Measure = false }
-           window
+        WpfProgram.mkSimple ContainerModel.init ContainerModel.update ContainerModel.bindings
+        |> WpfProgram.startElmishLoop window

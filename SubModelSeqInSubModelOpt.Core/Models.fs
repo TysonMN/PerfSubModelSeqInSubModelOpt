@@ -22,18 +22,21 @@ module UsersSubModel =
 
     type Model = {
         Users: User list
+        SelectedUser: int option
     }
 
-    let init() ={Users = []}
+    let init() ={Users = []; SelectedUser = None}
 
     type Msg =
         | Reset
         | LoadData
+        | Select of int option
 
     let update msg m =
         match msg with
             | Reset -> init()
-            | LoadData -> {m with Users = [for i = 1 to 200 do genUser i]}
+            | LoadData -> {m with Users = [for i = 1 to 5 do genUser i]}
+            | Select userId -> { m with SelectedUser = userId }
 
     let bindings () : Binding<Model, Msg> list = [
         "Users" |> Binding.subModelSeq(
@@ -49,6 +52,8 @@ module UsersSubModel =
 
         "Reset" |> Binding.cmd Reset
         "LoadData" |> Binding.cmd LoadData
+
+        "SelectedUser" |> Binding.subModelSelectedItem("Users", (fun m -> m.SelectedUser), Select)
     ]
 
 module ContainerModel =
@@ -93,6 +98,8 @@ module ContainerModel =
     ]
 
 module MainApp =
+    open Serilog
+    open Serilog.Extensions.Logging
     open Elmish
     open Elmish.WPF
 
@@ -100,5 +107,15 @@ module MainApp =
     let containerDesignVm = ViewModel.designInstance (ContainerModel.init ()) (ContainerModel.bindings ())
 
     let main window =
+        let logger =
+            LoggerConfiguration()
+              .MinimumLevel.Override("Elmish.WPF.Update", Events.LogEventLevel.Verbose)
+              .MinimumLevel.Override("Elmish.WPF.Bindings", Events.LogEventLevel.Verbose)
+              .MinimumLevel.Override("Elmish.WPF.Performance", Events.LogEventLevel.Verbose)
+              .WriteTo.Console()
+              .WriteTo.File("log-.txt")
+              .CreateLogger()
+
         WpfProgram.mkSimple ContainerModel.init ContainerModel.update ContainerModel.bindings
+        |> WpfProgram.withLogger (new SerilogLoggerFactory(logger))
         |> WpfProgram.startElmishLoop window

@@ -19,6 +19,7 @@
         <DataGrid x:Name="PartnersDataGrid" Grid.Row="1" Height="350"
             Margin="16" AutoGenerateColumns="False" IsReadOnly="True"
             HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
+            SelectedItem="{Binding SelectedUser}"
             ItemsSource="{Binding Users, IsAsync=True}">
 
             <DataGrid.Columns>

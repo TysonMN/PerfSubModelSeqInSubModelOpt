@@ -1,10 +1,7 @@
 ﻿namespace SubModelSeqInSubModelOpt.Core
 
 module UsersSubModel =
-    open Bogus
     open Elmish.WPF
-
-    let faker = Faker "en"
 
     type User =
       { Id: int }
@@ -12,10 +9,9 @@ module UsersSubModel =
     let genUser (id: int) =
       { Id = id }
 
-    type Model = {
-        Users: User list
-        SelectedUser: int option
-    }
+    type Model =
+      { Users: User list
+        SelectedUser: int option }
 
     let init () =
       { Users = [for i = 1 to 5 do genUser i]

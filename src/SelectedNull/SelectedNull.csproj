@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SubModelSeqInSubModelOpt.Core\SubModelSeqInSubModelOpt.Core.fsproj" />
+    <ProjectReference Include="..\SelectedNull.Core\SelectedNull.Core.fsproj" />
   </ItemGroup>
 
 </Project>

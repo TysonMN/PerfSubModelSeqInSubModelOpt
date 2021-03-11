@@ -6,22 +6,20 @@ module UsersSubModel =
 
     let faker = Faker "en"
 
-    type User = {
-        Id: int
-        FullName: string
-    }
+    type User =
+      { Id: int }
 
-    let genUser (id: int) = {
-        Id = id
-        FullName = faker.Name.FullName()
-    }
+    let genUser (id: int) =
+      { Id = id }
 
     type Model = {
         Users: User list
         SelectedUser: int option
     }
 
-    let init() ={Users = [for i = 1 to 5 do genUser i]; SelectedUser = None}
+    let init () =
+      { Users = [for i = 1 to 5 do genUser i]
+        SelectedUser = None }
 
     type Msg =
         | Select of int option
@@ -34,11 +32,7 @@ module UsersSubModel =
         "Users" |> Binding.subModelSeq(
             (fun m -> m.Users),
             (fun e -> e.Id),
-            (fun () -> [
-                "Id" |> Binding.oneWay (fun (_, e) -> e.Id)
-                "FullName" |> Binding.oneWay (fun (_, e) -> e.FullName)
-            ])
-        )
+            (fun () -> [ "Id" |> Binding.oneWay (fun (_, e) -> e.Id) ]))
 
         "SelectedUser" |> Binding.subModelSelectedItem("Users", (fun m -> m.SelectedUser), Select)
     ]
@@ -49,11 +43,10 @@ module ContainerModel =
     type SubModels =
         | Users of UsersSubModel.Model
 
-    type Model = {
-        SubModel: SubModels option
-    }
+    type Model =
+      { SubModel: SubModels option }
 
-    let init () = {SubModel = None}
+    let init () = { SubModel = None }
 
     type Msg =
         | ShowUsers

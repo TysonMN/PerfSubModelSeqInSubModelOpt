@@ -9,15 +9,11 @@ module UsersSubModel =
     type User = {
         Id: int
         FullName: string
-        Company: string
-        PhoneNumber : string
     }
 
     let genUser (id: int) = {
         Id = id
         FullName = faker.Name.FullName()
-        Company = faker.Company.CompanyName()
-        PhoneNumber = faker.Phone.PhoneNumber()
     }
 
     type Model = {
@@ -25,17 +21,15 @@ module UsersSubModel =
         SelectedUser: int option
     }
 
-    let init() ={Users = []; SelectedUser = None}
+    let init() ={Users = [for i = 1 to 5 do genUser i]; SelectedUser = None}
 
     type Msg =
         | Reset
-        | LoadData
         | Select of int option
 
     let update msg m =
         match msg with
             | Reset -> init()
-            | LoadData -> {m with Users = [for i = 1 to 5 do genUser i]}
             | Select userId -> { m with SelectedUser = userId }
 
     let bindings () : Binding<Model, Msg> list = [
@@ -45,20 +39,14 @@ module UsersSubModel =
             (fun () -> [
                 "Id" |> Binding.oneWay (fun (_, e) -> e.Id)
                 "FullName" |> Binding.oneWay (fun (_, e) -> e.FullName)
-                "Company" |> Binding.oneWay (fun (_, e) -> e.Company)
-                "PhoneNumber" |> Binding.oneWay (fun (_, e) -> e.PhoneNumber)
             ])
         )
-
-        "Reset" |> Binding.cmd Reset
-        "LoadData" |> Binding.cmd LoadData
 
         "SelectedUser" |> Binding.subModelSelectedItem("Users", (fun m -> m.SelectedUser), Select)
     ]
 
 module ContainerModel =
     open Elmish.WPF
-    open UsersSubModel
 
     type SubModels =
         | Users of UsersSubModel.Model
@@ -100,7 +88,6 @@ module ContainerModel =
 module MainApp =
     open Serilog
     open Serilog.Extensions.Logging
-    open Elmish
     open Elmish.WPF
 
     let usersDesignVm = ViewModel.designInstance (UsersSubModel.init ()) (UsersSubModel.bindings ())

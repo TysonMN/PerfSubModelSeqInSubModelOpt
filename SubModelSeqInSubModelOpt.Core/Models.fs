@@ -112,8 +112,7 @@ module MainApp =
               .MinimumLevel.Override("Elmish.WPF.Update", Events.LogEventLevel.Verbose)
               .MinimumLevel.Override("Elmish.WPF.Bindings", Events.LogEventLevel.Verbose)
               .MinimumLevel.Override("Elmish.WPF.Performance", Events.LogEventLevel.Verbose)
-              .WriteTo.Console()
-              .WriteTo.File("log-.txt")
+              .WriteTo.Seq("http://localhost:5341")
               .CreateLogger()
 
         WpfProgram.mkSimple ContainerModel.init ContainerModel.update ContainerModel.bindings

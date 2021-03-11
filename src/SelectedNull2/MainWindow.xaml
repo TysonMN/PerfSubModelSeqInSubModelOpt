@@ -1,0 +1,21 @@
+﻿<Window x:Class="SelectedNull2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <StackPanel>
+    <Menu>
+      <MenuItem Header="SubModels">
+        <MenuItem Header="UsersSubModel" Command="{Binding ShowUsers}"/>
+      </MenuItem>
+    </Menu>
+    <Grid DataContext="{Binding UserModel}">
+      <DataGrid AutoGenerateColumns="False"
+                IsReadOnly="True"
+                SelectedItem="{Binding SelectedUser}"
+                ItemsSource="{Binding Users}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
+  </StackPanel>
+</Window>

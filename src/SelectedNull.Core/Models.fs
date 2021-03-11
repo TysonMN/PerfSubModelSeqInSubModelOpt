@@ -85,9 +85,6 @@ module MainApp =
     open Serilog.Extensions.Logging
     open Elmish.WPF
 
-    let usersDesignVm = ViewModel.designInstance (UsersSubModel.init ()) (UsersSubModel.bindings ())
-    let containerDesignVm = ViewModel.designInstance (ContainerModel.init ()) (ContainerModel.bindings ())
-
     let main window =
         let logger =
             LoggerConfiguration()

@@ -1,4 +1,4 @@
-﻿namespace SubModelSeqInSubModelOpt.Core
+namespace SubModelSeqInSubModelOpt.Core
 
 module UsersSubModel =
     open Elmish.WPF
@@ -73,15 +73,27 @@ module MainApp =
     open Serilog
     open Serilog.Extensions.Logging
     open Elmish.WPF
+    open System
 
     let main window =
         let logger =
             LoggerConfiguration()
               .MinimumLevel.Override("Elmish.WPF.Update", Events.LogEventLevel.Verbose)
               .MinimumLevel.Override("Elmish.WPF.Bindings", Events.LogEventLevel.Verbose)
-              .MinimumLevel.Override("Elmish.WPF.Performance", Events.LogEventLevel.Verbose)
+              .MinimumLevel.Override("Elmish.WPF.Performance", Events.LogEventLevel.Debug)
               .WriteTo.Seq("http://localhost:5341")
               .CreateLogger()
+
+        let first (e: exn) =
+          Log.Warning(e, "{ExceptionMessage}", e.Message)
+        AppDomain.CurrentDomain.FirstChanceException.Subscribe(fun e -> e.Exception |> first)
+        |> ignore
+
+        let unhandled e =
+          logger.Fatal(e, "The application must crash now due to an unhandled exception")
+          Log.CloseAndFlush ()
+        AppDomain.CurrentDomain.UnhandledException.Subscribe(fun e -> e.ExceptionObject :?> exn |> unhandled)
+        |> ignore
 
         WpfProgram.mkSimple ContainerModel.init ContainerModel.update ContainerModel.bindings
         |> WpfProgram.withLogger (new SerilogLoggerFactory(logger))

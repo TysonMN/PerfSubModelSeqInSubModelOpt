@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <StackPanel>
     <Menu>
-      <MenuItem Header="SubModels" >
+      <MenuItem Header="SubModels">
         <MenuItem Header="UsersSubModel" Command="{Binding ShowUsers}"/>
       </MenuItem>
     </Menu>

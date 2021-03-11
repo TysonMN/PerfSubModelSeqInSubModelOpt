@@ -7,16 +7,22 @@ using System.Windows.Input;
 
 namespace SelectedNull2 {
   public class Command : ICommand {
+    private readonly MainWindow _mainWindow;
+
+    public Command(MainWindow mainWindow) {
+      _mainWindow = mainWindow;
+    }
+
     public event EventHandler CanExecuteChanged;
 
     public bool CanExecute(object _) => true;
-    public void Execute(object obj) {
-      MainWindow.Instance.UserModel = new UserModel();
-      MainWindow.Instance.UserModel.Users.Add(new User { Id = 1 });
-      MainWindow.Instance.UserModel.Users.Add(new User { Id = 2 });
-      MainWindow.Instance.UserModel.Users.Add(new User { Id = 3 });
-      MainWindow.Instance.UserModel.Users.Add(new User { Id = 4 });
-      MainWindow.Instance.UserModel.Users.Add(new User { Id = 5 });
+    public void Execute(object _) {
+      _mainWindow.UserModel = new UserModel();
+      _mainWindow.UserModel.Users.Add(new User { Id = 1 });
+      _mainWindow.UserModel.Users.Add(new User { Id = 2 });
+      _mainWindow.UserModel.Users.Add(new User { Id = 3 });
+      _mainWindow.UserModel.Users.Add(new User { Id = 4 });
+      _mainWindow.UserModel.Users.Add(new User { Id = 5 });
     }
   }
 
@@ -25,16 +31,25 @@ namespace SelectedNull2 {
   }
 
   public class UserModel {
+
     public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
-    public User SelectedUser { get; set; }
+
+    private User selectedUser;
+    public User SelectedUser {
+      get {
+        Console.WriteLine($"Get Selected {selectedUser?.Id.ToString() ?? "null"}");
+        return selectedUser;
+      }
+      set {
+        Console.WriteLine($"Set Selected {value?.Id.ToString() ?? "null"}");
+        selectedUser = value;
+      }
+    }
   }
 
   public partial class MainWindow : Window, INotifyPropertyChanged {
 
-    public ICommand ShowUsers { get; } = new Command();
-
-
-    public event PropertyChangedEventHandler PropertyChanged;
+    public ICommand ShowUsers { get; }
 
     private UserModel _userModel;
     public UserModel UserModel {
@@ -44,16 +59,16 @@ namespace SelectedNull2 {
         OnPropertyChanged();
       }
     }
-    private void OnPropertyChanged([CallerMemberName] string name = null) {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
-
-    public static MainWindow Instance { get; set; }
 
     public MainWindow() {
       DataContext = this;
-      Instance = this;
+      ShowUsers = new Command(this);
       InitializeComponent();
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    private void OnPropertyChanged([CallerMemberName] string name = null) {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }
 }

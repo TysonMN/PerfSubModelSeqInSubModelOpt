@@ -8,6 +8,17 @@
         <MenuItem Header="UsersSubModel" Command="{Binding ShowUsers}"/>
       </MenuItem>
     </Menu>
-    <uc:UsersSubModel DataContext="{Binding UserModel}"/>
+    <Grid DataContext="{Binding UserModel}">
+      <DataGrid Height="350"
+            Margin="16" AutoGenerateColumns="False" IsReadOnly="True"
+            HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
+            SelectedItem="{Binding SelectedUser}"
+            ItemsSource="{Binding Users, IsAsync=True}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
+          <DataGridTextColumn Binding="{Binding FullName}" Header="FullName"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </Grid>
   </StackPanel>
 </Window>

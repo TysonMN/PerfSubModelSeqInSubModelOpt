@@ -1,7 +1,6 @@
 ﻿<Window x:Class="SubModelSeqInSubModelOpt.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:uc="clr-namespace:SubModelSeqInSubModelOpt">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <StackPanel>
     <Menu>
       <MenuItem Header="SubModels" >
@@ -9,11 +8,10 @@
       </MenuItem>
     </Menu>
     <Grid DataContext="{Binding UserModel}">
-      <DataGrid Height="350"
-            Margin="16" AutoGenerateColumns="False" IsReadOnly="True"
-            HorizontalAlignment="Stretch" ScrollViewer.CanContentScroll="True"
-            SelectedItem="{Binding SelectedUser}"
-            ItemsSource="{Binding Users, IsAsync=True}">
+      <DataGrid AutoGenerateColumns="False"
+                IsReadOnly="True"
+                SelectedItem="{Binding SelectedUser}"
+                ItemsSource="{Binding Users, IsAsync=True}">
         <DataGrid.Columns>
           <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
           <DataGridTextColumn Binding="{Binding FullName}" Header="FullName"/>

@@ -34,16 +34,9 @@ namespace SelectedNull2 {
 
     public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
 
-    private User selectedUser;
     public User SelectedUser {
-      get {
-        Console.WriteLine($"Get Selected {selectedUser?.Id.ToString() ?? "null"}");
-        return selectedUser;
-      }
-      set {
-        Console.WriteLine($"Set Selected {value?.Id.ToString() ?? "null"}");
-        selectedUser = value;
-      }
+      get => null;
+      set { }
     }
   }
 

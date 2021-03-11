@@ -24,12 +24,10 @@ module UsersSubModel =
     let init() ={Users = [for i = 1 to 5 do genUser i]; SelectedUser = None}
 
     type Msg =
-        | Reset
         | Select of int option
 
     let update msg m =
         match msg with
-            | Reset -> init()
             | Select userId -> { m with SelectedUser = userId }
 
     let bindings () : Binding<Model, Msg> list = [
@@ -58,13 +56,11 @@ module ContainerModel =
     let init () = {SubModel = None}
 
     type Msg =
-        | Reset
         | ShowUsers
         | UsersMsg of UsersSubModel.Msg
 
     let update msg m =
         match msg with
-            | Reset -> init()
             | ShowUsers -> { m with SubModel = Some <| Users (UsersSubModel.init ())}
             | UsersMsg msg' ->
                 match m.SubModel with
@@ -72,7 +68,6 @@ module ContainerModel =
                 | _ -> m
 
     let bindings () : Binding<Model, Msg> list = [
-        "Reset" |> Binding.cmd Reset
         "ShowUsers" |> Binding.cmd ShowUsers
 
         "UsersVisible" |> Binding.oneWay

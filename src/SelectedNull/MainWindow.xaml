@@ -11,7 +11,7 @@
       <DataGrid AutoGenerateColumns="False"
                 IsReadOnly="True"
                 SelectedItem="{Binding SelectedUser}"
-                ItemsSource="{Binding Users, IsAsync=True}">
+                ItemsSource="{Binding Users}">
         <DataGrid.Columns>
           <DataGridTextColumn Binding="{Binding Id}" Header="Id"/>
         </DataGrid.Columns>
